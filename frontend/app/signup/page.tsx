@@ -56,6 +56,17 @@ export default function SignupPage() {
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
             />
           </div>
+          <div>
+            <label className="text-sm font-medium text-slate-700">
+              {t.confirmPasswordLabel}
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder={t.confirmPasswordPlaceholder}
+              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+            />
+          </div>
           <button
             type="button"
             className="w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-800/30 transition hover:bg-brand-500"

@@ -23,6 +23,8 @@ export const translations = {
       emailPlaceholder: "you@example.com",
       passwordLabel: "Password",
       passwordPlaceholder: "Create a secure password",
+      confirmPasswordLabel: "Confirm password",
+      confirmPasswordPlaceholder: "Re-enter your password",
       continueWithEmail: "Create account",
       socialDivider: "Or sign up with",
       providers: {
@@ -122,6 +124,8 @@ export const translations = {
       emailPlaceholder: "ty@przyklad.com",
       passwordLabel: "Hasło",
       passwordPlaceholder: "Utwórz bezpieczne hasło",
+      confirmPasswordLabel: "Potwierdź hasło",
+      confirmPasswordPlaceholder: "Wpisz hasło ponownie",
       continueWithEmail: "Utwórz konto",
       socialDivider: "Albo zarejestruj się przez",
       providers: {
