@@ -13,6 +13,20 @@ export const translations = {
       brandTop: "Dog",
       brandBottom: "Academy"
     },
+    loginPage: {
+      eyebrow: "Welcome back",
+      title: "Log in to continue",
+      subtitle: "Choose the most convenient way to access your account.",
+      emailLabel: "Email address",
+      emailPlaceholder: "you@example.com",
+      continueWithEmail: "Continue with email",
+      socialDivider: "Or continue with",
+      providers: {
+        google: "Google",
+        facebook: "Facebook",
+        tiktok: "TikTok"
+      }
+    },
     hero: {
       eyebrow: "Training • Events • Care",
       title: "Book courses and meetings for your dog with trusted trainers.",
@@ -79,6 +93,20 @@ export const translations = {
       join: "Dołącz",
       brandTop: "Psi",
       brandBottom: "Akademia"
+    },
+    loginPage: {
+      eyebrow: "Miło Cię widzieć",
+      title: "Zaloguj się, aby kontynuować",
+      subtitle: "Wybierz najwygodniejszy sposób logowania do swojego konta.",
+      emailLabel: "Adres e-mail",
+      emailPlaceholder: "ty@przyklad.com",
+      continueWithEmail: "Kontynuuj przez e-mail",
+      socialDivider: "Albo zaloguj się przez",
+      providers: {
+        google: "Google",
+        facebook: "Facebook",
+        tiktok: "TikTok"
+      }
     },
     hero: {
       eyebrow: "Szkolenia • Wydarzenia • Opieka",
