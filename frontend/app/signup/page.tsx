@@ -3,9 +3,9 @@
 import { providerIcons, socialProviders } from "../../components/authProviders";
 import { useLocale } from "../../components/LocaleProvider";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const { messages } = useLocale();
-  const t = messages.loginPage;
+  const t = messages.signupPage;
 
   return (
     <div className="mt-10 flex justify-center px-2">
@@ -21,14 +21,38 @@ export default function LoginPage() {
         </div>
 
         <form className="space-y-3">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="text-sm font-medium text-slate-700">
+                {t.nameLabel}
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder={t.namePlaceholder}
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">
+                {t.emailLabel}
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder={t.emailPlaceholder}
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
+              />
+            </div>
+          </div>
           <div>
             <label className="text-sm font-medium text-slate-700">
-              {t.emailLabel}
+              {t.passwordLabel}
             </label>
             <input
-              type="email"
-              name="email"
-              placeholder={t.emailPlaceholder}
+              type="password"
+              name="password"
+              placeholder={t.passwordPlaceholder}
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
             />
           </div>

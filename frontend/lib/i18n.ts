@@ -13,6 +13,24 @@ export const translations = {
       brandTop: "Dog",
       brandBottom: "Academy"
     },
+    signupPage: {
+      eyebrow: "Join the pack",
+      title: "Create your account",
+      subtitle: "Save your preferences and book faster across devices.",
+      nameLabel: "Full name",
+      namePlaceholder: "Alex Doe",
+      emailLabel: "Email address",
+      emailPlaceholder: "you@example.com",
+      passwordLabel: "Password",
+      passwordPlaceholder: "Create a secure password",
+      continueWithEmail: "Create account",
+      socialDivider: "Or sign up with",
+      providers: {
+        google: "Google",
+        facebook: "Facebook",
+        tiktok: "TikTok"
+      }
+    },
     loginPage: {
       eyebrow: "Welcome back",
       title: "Log in to continue",
@@ -93,6 +111,24 @@ export const translations = {
       join: "Dołącz",
       brandTop: "Psi",
       brandBottom: "Akademia"
+    },
+    signupPage: {
+      eyebrow: "Dołącz do nas",
+      title: "Załóż konto",
+      subtitle: "Zapisz preferencje i rezerwuj szybciej na wszystkich urządzeniach.",
+      nameLabel: "Imię i nazwisko",
+      namePlaceholder: "Jan Kowalski",
+      emailLabel: "Adres e-mail",
+      emailPlaceholder: "ty@przyklad.com",
+      passwordLabel: "Hasło",
+      passwordPlaceholder: "Utwórz bezpieczne hasło",
+      continueWithEmail: "Utwórz konto",
+      socialDivider: "Albo zarejestruj się przez",
+      providers: {
+        google: "Google",
+        facebook: "Facebook",
+        tiktok: "TikTok"
+      }
     },
     loginPage: {
       eyebrow: "Miło Cię widzieć",
