@@ -1,0 +1,19 @@
+import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, EmailStr, Field
+
+
+class SignupRequest(BaseModel):
+    email: EmailStr = Field(..., description="User email")
+    password: str = Field(..., min_length=8, description="User password")
+
+
+class SignupResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    email_verified: bool
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

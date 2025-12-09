@@ -13,6 +13,7 @@ dev-frontend:
 	cd $(frontend_dir) && npm run dev
 
 dev-backend:
+	docker compose up -d db pgadmin
 	cd $(backend_dir) && python3 -m uvicorn app.main:app --reload --port 8000
 
 fmt:
