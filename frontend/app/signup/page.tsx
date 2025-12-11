@@ -2,10 +2,59 @@
 
 import { providerIcons, socialProviders } from "../../components/authProviders";
 import { useLocale } from "../../components/LocaleProvider";
+import { useMemo, useState } from "react";
 
 export default function SignupPage() {
   const { messages } = useLocale();
   const t = messages.signupPage;
+  const apiBaseUrl = useMemo(
+    () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+    []
+  );
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    setSuccess(false);
+
+    if (password !== confirmPassword) {
+      setError(t.errors.passwordMismatch);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${apiBaseUrl}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        return;
+      }
+
+      if (response.status === 409) {
+        setError(t.errors.conflict);
+      } else {
+        setError(t.errors.generic);
+      }
+    } catch (err) {
+      console.error("Signup error", err);
+      setError(t.errors.generic);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="mt-10 flex justify-center px-2">
@@ -20,7 +69,7 @@ export default function SignupPage() {
           <p className="text-sm text-slate-600">{t.subtitle}</p>
         </div>
 
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={handleSubmit}>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label className="text-sm font-medium text-slate-700">
@@ -30,6 +79,8 @@ export default function SignupPage() {
                 type="text"
                 name="name"
                 placeholder={t.namePlaceholder}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
               />
             </div>
@@ -41,6 +92,8 @@ export default function SignupPage() {
                 type="email"
                 name="email"
                 placeholder={t.emailPlaceholder}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
               />
             </div>
@@ -53,6 +106,8 @@ export default function SignupPage() {
               type="password"
               name="password"
               placeholder={t.passwordPlaceholder}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
             />
           </div>
@@ -64,14 +119,28 @@ export default function SignupPage() {
               type="password"
               name="confirmPassword"
               placeholder={t.confirmPasswordPlaceholder}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm shadow-sm focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100"
             />
           </div>
+          {error ? (
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+              {error}
+            </div>
+          ) : null}
+          {success ? (
+            <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+              <div className="font-semibold">{t.successTitle}</div>
+              <p className="text-sm">{t.successBody}</p>
+            </div>
+          ) : null}
           <button
-            type="button"
-            className="w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-800/30 transition hover:bg-brand-500"
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-800/30 transition hover:bg-brand-500 disabled:cursor-not-allowed disabled:bg-brand-300"
           >
-            {t.continueWithEmail}
+            {isSubmitting ? t.continueWithEmailLoading : t.continueWithEmail}
           </button>
         </form>
 

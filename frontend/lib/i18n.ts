@@ -26,6 +26,14 @@ export const translations = {
       confirmPasswordLabel: "Confirm password",
       confirmPasswordPlaceholder: "Re-enter your password",
       continueWithEmail: "Create account",
+      continueWithEmailLoading: "Submitting...",
+      successTitle: "Account created",
+      successBody: "Check your email to verify your account and finish setup.",
+      errors: {
+        passwordMismatch: "Passwords do not match.",
+        conflict: "An account with this email already exists.",
+        generic: "Unable to create your account. Please try again."
+      },
       socialDivider: "Or sign up with",
       providers: {
         google: "Google",
@@ -127,6 +135,14 @@ export const translations = {
       confirmPasswordLabel: "Potwierdź hasło",
       confirmPasswordPlaceholder: "Wpisz hasło ponownie",
       continueWithEmail: "Utwórz konto",
+      continueWithEmailLoading: "Wysyłanie...",
+      successTitle: "Konto utworzone",
+      successBody: "Sprawdź e-mail, aby zweryfikować konto i dokończyć konfigurację.",
+      errors: {
+        passwordMismatch: "Hasła nie są identyczne.",
+        conflict: "Konto z tym adresem e-mail już istnieje.",
+        generic: "Nie udało się utworzyć konta. Spróbuj ponownie."
+      },
       socialDivider: "Albo zarejestruj się przez",
       providers: {
         google: "Google",
