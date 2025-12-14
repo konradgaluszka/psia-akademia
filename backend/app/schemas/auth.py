@@ -17,3 +17,14 @@ class SignupResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class VerifyRequest(BaseModel):
+    token: str = Field(..., description="Verification token")
+
+
+class VerifyResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    email_verified: bool
+    created_at: datetime

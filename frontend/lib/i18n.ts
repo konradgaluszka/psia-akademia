@@ -41,6 +41,17 @@ export const translations = {
         tiktok: "TikTok"
       }
     },
+    verifyPage: {
+      title: "Verify your email",
+      successTitle: "Email verified",
+      successBody: "Your account is confirmed. You can now log in.",
+      failureTitle: "Verification failed",
+      invalid: "The verification link is invalid.",
+      expired: "This verification link has expired. Request a new one.",
+      alreadyVerified: "This email was already verified.",
+      generic: "Could not verify the email. Please try again.",
+      ctaLogin: "Go to login"
+    },
     loginPage: {
       eyebrow: "Welcome back",
       title: "Log in to continue",
@@ -149,6 +160,17 @@ export const translations = {
         facebook: "Facebook",
         tiktok: "TikTok"
       }
+    },
+    verifyPage: {
+      title: "Zweryfikuj swój e-mail",
+      successTitle: "E-mail zweryfikowany",
+      successBody: "Twoje konto zostało potwierdzone. Możesz się zalogować.",
+      failureTitle: "Błąd weryfikacji",
+      invalid: "Link weryfikacyjny jest nieprawidłowy.",
+      expired: "Link weryfikacyjny wygasł. Poproś o nowy.",
+      alreadyVerified: "Ten e-mail został już zweryfikowany.",
+      generic: "Nie udało się zweryfikować e-maila. Spróbuj ponownie.",
+      ctaLogin: "Przejdź do logowania"
     },
     loginPage: {
       eyebrow: "Miło Cię widzieć",
