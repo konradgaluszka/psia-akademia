@@ -16,3 +16,4 @@ out
 # macOS
 .DS_Store
 /backend/.env.example
+/backend/.env1/

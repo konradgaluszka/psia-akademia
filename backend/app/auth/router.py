@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.models.user import User
-from app.schemas.auth import SignupRequest, SignupResponse, VerifyRequest, VerifyResponse
-from app.services.email import send_verification_email
+from app.auth.auth import SignupRequest, SignupResponse, VerifyRequest, VerifyResponse
+from app.auth.email import send_verification_email
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
