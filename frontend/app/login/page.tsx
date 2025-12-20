@@ -1,11 +1,40 @@
 "use client";
 
+import { useSignIn } from "@clerk/nextjs";
+import { useState } from "react";
+
 import { providerIcons, socialProviders } from "../../components/authProviders";
 import { useLocale } from "../../components/LocaleProvider";
+
+const oauthStrategies = {
+  google: "oauth_google",
+  facebook: "oauth_facebook",
+  tiktok: "oauth_tiktok"
+} as const;
 
 export default function LoginPage() {
   const { messages } = useLocale();
   const t = messages.loginPage;
+  const { signIn, isLoaded } = useSignIn();
+  const [oauthError, setOauthError] = useState<string | null>(null);
+
+  async function handleSocialLogin(provider: (typeof socialProviders)[number]) {
+    setOauthError(null);
+    if (!isLoaded) {
+      setOauthError(t.oauthError);
+      return;
+    }
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: oauthStrategies[provider],
+        redirectUrl: "/oauth/callback",
+        redirectUrlComplete: "/oauth/callback"
+      });
+    } catch (err) {
+      console.error("Clerk OAuth error", err);
+      setOauthError(t.oauthError);
+    }
+  }
 
   return (
     <div className="mt-10 flex justify-center px-2">
@@ -46,18 +75,27 @@ export default function LoginPage() {
           <div className="h-px flex-1 bg-slate-200" />
         </div>
 
+        {oauthError ? (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+            {oauthError}
+          </div>
+        ) : null}
+
         <div className="grid gap-3 sm:grid-cols-2">
           {socialProviders.map((provider) => (
             <button
               key={provider}
               type="button"
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-300 hover:bg-brand-50"
+              onClick={() => handleSocialLogin(provider)}
             >
               <div className="flex items-center gap-3">
                 {providerIcons[provider]}
                 <span>{t.providers[provider]}</span>
               </div>
-              <span className="text-xs font-medium text-slate-500">Coming soon</span>
+              <span className="text-xs font-medium text-slate-500">
+                {t.socialCta}
+              </span>
             </button>
           ))}
         </div>

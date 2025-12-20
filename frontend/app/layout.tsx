@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "../components/Navbar";
 import { LocaleProvider } from "../components/LocaleProvider";
 
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className="bg-slate-50 text-slate-900 antialiased font-body">
-        <LocaleProvider>
-          <Navbar />
-          <main className="px-4 pb-16 sm:px-8 lg:px-16">{children}</main>
-        </LocaleProvider>
+        <ClerkProvider>
+          <LocaleProvider>
+            <Navbar />
+            <main className="px-4 pb-16 sm:px-8 lg:px-16">{children}</main>
+          </LocaleProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     smtp_user: Optional[str] = Field(default=None, env="SMTP_USER")
     smtp_password: Optional[str] = Field(default=None, env="SMTP_PASSWORD")
     email_from: str = Field(default="no-reply@example.com", env="EMAIL_FROM")
+    clerk_jwt_issuer: Optional[str] = Field(default=None, env="CLERK_JWT_ISSUER")
+    clerk_jwks_url: Optional[str] = Field(default=None, env="CLERK_JWKS_URL")
+    clerk_jwt_audience: Optional[str] = Field(default=None, env="CLERK_JWT_AUDIENCE")
 
     model_config = SettingsConfigDict(env_file=".env.example", case_sensitive=False)
 

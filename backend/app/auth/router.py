@@ -8,7 +8,15 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.models.user import User
-from app.auth.auth import SignupRequest, SignupResponse, VerifyRequest, VerifyResponse
+from app.auth.auth import (
+    ClerkOAuthRequest,
+    ClerkOAuthResponse,
+    SignupRequest,
+    SignupResponse,
+    VerifyRequest,
+    VerifyResponse,
+)
+from app.auth.clerk import verify_clerk_token
 from app.auth.email import send_verification_email
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
@@ -94,3 +102,51 @@ def verify(payload: VerifyRequest, db: Session = Depends(get_db)) -> VerifyRespo
 @auth_router.get("/verify", tags=["auth"])
 def verify_get(token: str, db: Session = Depends(get_db)):
     return _verify_token(token, db)
+
+
+@auth_router.post("/oauth/clerk", response_model=ClerkOAuthResponse)
+def clerk_oauth(payload: ClerkOAuthRequest, db: Session = Depends(get_db)) -> ClerkOAuthResponse:
+    claims = verify_clerk_token(payload.token)
+    clerk_user_id = claims.get("sub")
+    email = claims.get("email") or claims.get("primary_email") or claims.get("email_address")
+    if not clerk_user_id or not email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Missing required claims from Clerk token",
+        )
+
+    email = email.strip().lower()
+
+    existing_by_clerk = db.execute(
+        select(User).where(User.clerk_user_id == clerk_user_id)
+    ).scalar_one_or_none()
+    if existing_by_clerk:
+        return existing_by_clerk
+
+    existing_by_email = db.execute(select(User).where(User.email == email)).scalar_one_or_none()
+    if existing_by_email:
+        if existing_by_email.clerk_user_id and existing_by_email.clerk_user_id != clerk_user_id:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Email already linked to another Clerk account",
+            )
+        existing_by_email.clerk_user_id = clerk_user_id
+        existing_by_email.email_verified = True
+        db.add(existing_by_email)
+        db.commit()
+        db.refresh(existing_by_email)
+        return existing_by_email
+
+    random_password = secrets.token_urlsafe(32)
+    password_hash = bcrypt.hashpw(random_password.encode(), bcrypt.gensalt()).decode()
+    user = User(
+        email=email,
+        password=password_hash,
+        hash=secrets.token_hex(16),
+        email_verified=True,
+        clerk_user_id=clerk_user_id,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user

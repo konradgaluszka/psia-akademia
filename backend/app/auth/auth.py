@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -28,3 +29,21 @@ class VerifyResponse(BaseModel):
     email: EmailStr
     email_verified: bool
     created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class ClerkOAuthRequest(BaseModel):
+    token: str = Field(..., description="Clerk JWT")
+
+
+class ClerkOAuthResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    email_verified: bool
+    created_at: datetime
+    clerk_user_id: Optional[str] = None
+
+    class Config:
+        orm_mode = True

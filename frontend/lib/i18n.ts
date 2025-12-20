@@ -35,6 +35,8 @@ export const translations = {
         generic: "Unable to create your account. Please try again."
       },
       socialDivider: "Or sign up with",
+      socialCta: "Continue",
+      oauthError: "Unable to start social signup. Please try again.",
       providers: {
         google: "Google",
         facebook: "Facebook",
@@ -60,11 +62,23 @@ export const translations = {
       emailPlaceholder: "you@example.com",
       continueWithEmail: "Continue with email",
       socialDivider: "Or continue with",
+      socialCta: "Continue",
+      oauthError: "Unable to start social login. Please try again.",
       providers: {
         google: "Google",
         facebook: "Facebook",
         tiktok: "TikTok"
       }
+    },
+    oauthCallback: {
+      title: "Connecting your account",
+      loading: "Finalizing your sign-in...",
+      successTitle: "Social login connected",
+      successBody: "You can now continue using your account.",
+      errorTitle: "Could not connect account",
+      genericError: "Please try again or use email login.",
+      missingToken: "Missing session token from provider.",
+      ctaHome: "Go to home"
     },
     hero: {
       eyebrow: "Training • Events • Care",
@@ -155,6 +169,8 @@ export const translations = {
         generic: "Nie udało się utworzyć konta. Spróbuj ponownie."
       },
       socialDivider: "Albo zarejestruj się przez",
+      socialCta: "Kontynuuj",
+      oauthError: "Nie udało się uruchomić rejestracji społecznościowej.",
       providers: {
         google: "Google",
         facebook: "Facebook",
@@ -180,11 +196,23 @@ export const translations = {
       emailPlaceholder: "ty@przyklad.com",
       continueWithEmail: "Kontynuuj przez e-mail",
       socialDivider: "Albo zaloguj się przez",
+      socialCta: "Kontynuuj",
+      oauthError: "Nie udało się uruchomić logowania społecznościowego.",
       providers: {
         google: "Google",
         facebook: "Facebook",
         tiktok: "TikTok"
       }
+    },
+    oauthCallback: {
+      title: "Łączenie konta",
+      loading: "Kończymy logowanie...",
+      successTitle: "Logowanie społecznościowe połączone",
+      successBody: "Możesz teraz kontynuować.",
+      errorTitle: "Nie udało się połączyć konta",
+      genericError: "Spróbuj ponownie lub użyj logowania e-mail.",
+      missingToken: "Brakuje tokenu sesji od dostawcy.",
+      ctaHome: "Przejdź na stronę główną"
     },
     hero: {
       eyebrow: "Szkolenia • Wydarzenia • Opieka",
