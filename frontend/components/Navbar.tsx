@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "./LocaleProvider";
+import { useCurrentUser } from "../lib/useCurrentUser";
 
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export default function Navbar() {
   const { locale, setLocale, messages } = useLocale();
+  const { user, isLoading } = useCurrentUser();
   const navLinks = [
     { href: "/", label: messages.nav.events },
     { href: "/about", label: messages.nav.about },
@@ -74,18 +76,24 @@ export default function Navbar() {
                 );
               })}
             </div>
-            <Link
-              href="/login"
-              className="text-sm font-semibold text-white hover:text-slate-100"
-            >
-              {messages.nav.login}
-            </Link>
-            <Link
-              href="/signup"
-              className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm hover:bg-slate-100"
-            >
-              {messages.nav.join}
-            </Link>
+            {user ? (
+              <span className="text-sm font-semibold text-white">{user.email}</span>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm font-semibold text-white hover:text-slate-100"
+                >
+                  {messages.nav.login}
+                </Link>
+                <Link
+                  href="/signup"
+                  className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm hover:bg-slate-100"
+                >
+                  {messages.nav.join}
+                </Link>
+              </>
+            )}
           </div>
         </div>
         <div className="mt-16 flex items-center gap-6 border-t border-white/10 pt-16">

@@ -28,3 +28,13 @@ class VerifyResponse(BaseModel):
     email: EmailStr
     email_verified: bool
     created_at: datetime
+
+
+class MeResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    email_verified: bool
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

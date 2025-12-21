@@ -1,11 +1,24 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { providerIcons, socialProviders } from "../../components/authProviders";
 import { useLocale } from "../../components/LocaleProvider";
 
 export default function LoginPage() {
   const { messages } = useLocale();
   const t = messages.loginPage;
+  const apiBaseUrl = useMemo(
+    () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+    []
+  );
+
+  function handleSocialLogin(provider: (typeof socialProviders)[number]) {
+    if (provider !== "facebook") {
+      return;
+    }
+    window.location.href = `${apiBaseUrl}/facebook/auth/login`;
+  }
 
   return (
     <div className="mt-10 flex justify-center px-2">
@@ -51,6 +64,7 @@ export default function LoginPage() {
             <button
               key={provider}
               type="button"
+              onClick={() => handleSocialLogin(provider)}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-brand-300 hover:bg-brand-50"
             >
               <div className="flex items-center gap-3">

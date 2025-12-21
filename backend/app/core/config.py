@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     smtp_user: Optional[str] = Field(default=None, env="SMTP_USER")
     smtp_password: Optional[str] = Field(default=None, env="SMTP_PASSWORD")
     email_from: str = Field(default="no-reply@example.com", env="EMAIL_FROM")
+    jwt_secret: str = Field(default="dev-change-me", env="JWT_SECRET")
+    jwt_algorithm: str = Field(default="HS256", env="JWT_ALGORITHM")
+    jwt_exp_minutes: int = Field(default=60 * 24 * 7, env="JWT_EXP_MINUTES")
 
     model_config = SettingsConfigDict(env_file=".env.example", case_sensitive=False)
 

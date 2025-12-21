@@ -1,15 +1,18 @@
 import secrets
+import uuid
 from datetime import datetime, timedelta, timezone
 import logging
 import bcrypt
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, status
+from jwt import PyJWTError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.models.user import User
-from app.auth.auth import SignupRequest, SignupResponse, VerifyRequest, VerifyResponse
+from app.auth.auth import MeResponse, SignupRequest, SignupResponse, VerifyRequest, VerifyResponse
 from app.auth.email import send_verification_email
+from app.auth.jwt import decode_access_token
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -94,3 +97,28 @@ def verify(payload: VerifyRequest, db: Session = Depends(get_db)) -> VerifyRespo
 @auth_router.get("/verify", tags=["auth"])
 def verify_get(token: str, db: Session = Depends(get_db)):
     return _verify_token(token, db)
+
+
+def _get_current_user(request: Request, db: Session) -> User:
+    session_token = request.cookies.get("session")
+    if not session_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing session")
+
+    try:
+        payload = decode_access_token(session_token)
+    except PyJWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid session")
+
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid session")
+
+    user = db.execute(select(User).where(User.id == uuid.UUID(user_id))).scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
+    return user
+
+
+@auth_router.get("/me", response_model=MeResponse)
+def me(request: Request, db: Session = Depends(get_db)) -> MeResponse:
+    return _get_current_user(request, db)
