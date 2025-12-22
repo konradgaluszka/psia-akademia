@@ -1,0 +1,5 @@
+neluko {
+    tls certs/neluko+2.pem certs/neluko+2-key.pem
+
+    reverse_proxy 127.0.0.1:3000
+}
