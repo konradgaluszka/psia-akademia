@@ -71,7 +71,6 @@ export default function LoginPage() {
                 {providerIcons[provider]}
                 <span>{t.providers[provider]}</span>
               </div>
-              <span className="text-xs font-medium text-slate-500">Coming soon</span>
             </button>
           ))}
         </div>

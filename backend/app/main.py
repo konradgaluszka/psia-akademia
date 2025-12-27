@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from app.api import api_router
-from app.auth.router import _verify_token
 from app.core.database import Base, engine, get_db
 from app.models import user as user_model  # noqa: F401
 import logging
