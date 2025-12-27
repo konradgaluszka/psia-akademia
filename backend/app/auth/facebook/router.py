@@ -13,10 +13,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.auth.facebook.facebook import facebook_settings
-from app.auth.utils import generate_state
-from app.auth.jwt import create_access_token
+from app.auth.utils.utils import generate_state
+from app.auth.utils.jwt import create_access_token
 from app.core.database import get_db
-from app.models.user import User
+from app.user.user import User
 
 auth_router = APIRouter(prefix="/facebook/auth", tags=["auth"])
 logger = logging.getLogger(__name__)
@@ -147,19 +147,10 @@ async def find_or_create_user_from_facebook(
     user = db.execute(select(User).where(User.email == normalized_email)).scalar_one_or_none()
     if user:
         logger.info("facebook_auth.user_found email=%s user_id=%s", normalized_email, user.id)
-        if not user.email_verified:
-            user.email_verified = True
-            db.add(user)
-            db.commit()
-            db.refresh(user)
-            logger.info("facebook_auth.user_verified email=%s user_id=%s", normalized_email, user.id)
         return user
 
-    password_hash = bcrypt.hashpw(secrets.token_urlsafe(32).encode(), bcrypt.gensalt()).decode()
     user = User(
-        email=normalized_email,
-        password=password_hash,
-        email_verified=True,
+        email=normalized_email
     )
     db.add(user)
     db.commit()

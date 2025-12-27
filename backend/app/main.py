@@ -1,10 +1,8 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
 from app.api import api_router
-from app.core.database import Base, engine, get_db
-from app.models import user as user_model  # noqa: F401
+from app.core.database import Base, engine
 import logging
 
 logging.basicConfig(level=logging.INFO)

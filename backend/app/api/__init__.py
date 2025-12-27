@@ -1,11 +1,13 @@
 from fastapi import APIRouter
 
-from app.auth.router import auth_router
+from app.auth.plain.router import auth_router
+from app.auth.router import auth_router as auth_me_router
 from app.events.router import events_router
 from app.auth.facebook.router import auth_router as facebook_router
 
 api_router = APIRouter()
 api_router.include_router(auth_router)
+api_router.include_router(auth_me_router)
 api_router.include_router(events_router)
 api_router.include_router(facebook_router)
 
