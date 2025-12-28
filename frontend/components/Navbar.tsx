@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "./LocaleProvider";
+import { useMemo } from "react";
+
 import { useCurrentUser } from "../lib/useCurrentUser";
 
 function NavLink({ href, label }: { href: string; label: string }) {
@@ -22,7 +24,18 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export default function Navbar() {
   const { locale, setLocale, messages } = useLocale();
-  const { user, isLoading } = useCurrentUser();
+  const { user, refresh } = useCurrentUser();
+  const apiBaseUrl = useMemo(
+    () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+    []
+  );
+  async function handleLogout() {
+    await fetch(`${apiBaseUrl}/auth/logout`, {
+      method: "POST",
+      credentials: "include"
+    });
+    await refresh();
+  }
   const navLinks = [
     { href: "/", label: messages.nav.events },
     { href: "/about", label: messages.nav.about },
@@ -77,7 +90,18 @@ export default function Navbar() {
               })}
             </div>
             {user ? (
-              <span className="text-sm font-semibold text-white">{user.email}</span>
+              <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                <span>{user.email}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-full border border-white/30 px-3 py-1 text-xs font-semibold text-white/90 transition hover:border-white hover:text-white"
+                  aria-label="Log out"
+                  title="Log out"
+                >
+                  Log out
+                </button>
+              </div>
             ) : (
               <>
                 <Link

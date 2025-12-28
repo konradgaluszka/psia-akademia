@@ -1,7 +1,9 @@
 import uuid
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+import os
+
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from jwt import PyJWTError
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import select
@@ -46,3 +48,17 @@ def _get_current_user(request: Request, db: Session) -> User:
 @auth_router.get("/me", response_model=MeResponse)
 def me(request: Request, db: Session = Depends(get_db)) -> MeResponse:
     return _get_current_user(request, db)
+
+
+@auth_router.post("/logout")
+def logout(response: Response) -> dict[str, str]:
+    response.set_cookie(
+        key="session",
+        value="",
+        httponly=True,
+        secure=os.getenv("ENV", "development") == "production",
+        samesite="lax",
+        max_age=0,
+        path="/",
+    )
+    return {"status": "ok"}
