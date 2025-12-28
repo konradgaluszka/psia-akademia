@@ -58,7 +58,10 @@ export const translations = {
       subtitle: "Choose the most convenient way to access your account.",
       emailLabel: "Email address",
       emailPlaceholder: "you@example.com",
+      passwordLabel: "Password",
+      passwordPlaceholder: "Your password",
       continueWithEmail: "Continue with email",
+      loginError: "Could not sign in. Please check your credentials.",
       socialDivider: "Or continue with",
       providers: {
         google: "Google",
@@ -178,7 +181,10 @@ export const translations = {
       subtitle: "Wybierz najwygodniejszy sposób logowania do swojego konta.",
       emailLabel: "Adres e-mail",
       emailPlaceholder: "ty@przyklad.com",
+      passwordLabel: "Hasło",
+      passwordPlaceholder: "Twoje hasło",
       continueWithEmail: "Kontynuuj przez e-mail",
+      loginError: "Nie udało się zalogować. Sprawdź dane.",
       socialDivider: "Albo zaloguj się przez",
       providers: {
         google: "Google",

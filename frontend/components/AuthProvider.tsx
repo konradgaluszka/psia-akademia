@@ -1,22 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-type CurrentUser = {
+export type CurrentUser = {
   id: string;
   email: string;
-  email_verified: boolean;
+  role: string;
   created_at: string;
 };
 
-type UseCurrentUserResult = {
+export type UseCurrentUserResult = {
   user: CurrentUser | null;
   isLoading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
 };
 
-export function useCurrentUser(): UseCurrentUserResult {
+const AuthContext = createContext<UseCurrentUserResult | null>(null);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const apiBaseUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
     []
@@ -53,17 +55,20 @@ export function useCurrentUser(): UseCurrentUserResult {
   }, [apiBaseUrl]);
 
   useEffect(() => {
-    let isMounted = true;
-    void (async () => {
-      if (!isMounted) {
-        return;
-      }
-      await fetchUser();
-    })();
-    return () => {
-      isMounted = false;
-    };
+    void fetchUser();
   }, [fetchUser]);
 
-  return { user, isLoading, error, refresh: fetchUser };
+  return (
+    <AuthContext.Provider value={{ user, isLoading, error, refresh: fetchUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth(): UseCurrentUserResult {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+  return context;
 }

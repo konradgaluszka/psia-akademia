@@ -9,6 +9,11 @@ class SignupRequest(BaseModel):
     password: str = Field(..., min_length=8, description="User password")
 
 
+class LoginRequest(BaseModel):
+    email: EmailStr = Field(..., description="User email")
+    password: str = Field(..., min_length=8, description="User password")
+
+
 class SignupResponse(BaseModel):
     id: uuid.UUID
     email: EmailStr
@@ -34,6 +39,16 @@ class MeResponse(BaseModel):
     id: uuid.UUID
     email: EmailStr
     email_verified: bool
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class LoginResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    role: str
     created_at: datetime
 
     class Config:

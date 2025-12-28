@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import { LocaleProvider } from "../components/LocaleProvider";
+import { AuthProvider } from "../components/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Dog Academy | Book courses and meetings",
@@ -17,8 +18,10 @@ export default function RootLayout({
     <html lang="pl">
       <body className="bg-slate-50 text-slate-900 antialiased font-body">
         <LocaleProvider>
-          <Navbar />
-          <main className="px-4 pb-16 sm:px-8 lg:px-16">{children}</main>
+          <AuthProvider>
+            <Navbar />
+            <main className="px-4 pb-16 sm:px-8 lg:px-16">{children}</main>
+          </AuthProvider>
         </LocaleProvider>
       </body>
     </html>

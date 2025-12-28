@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "./LocaleProvider";
 import { useMemo } from "react";
 
-import { useCurrentUser } from "../lib/useCurrentUser";
+import { useAuth } from "./AuthProvider";
 
 function NavLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
@@ -24,7 +24,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export default function Navbar() {
   const { locale, setLocale, messages } = useLocale();
-  const { user, refresh } = useCurrentUser();
+  const { user, refresh } = useAuth();
   const apiBaseUrl = useMemo(
     () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
     []
